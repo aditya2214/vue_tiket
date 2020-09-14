@@ -18,3 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::resource('/category','CategoryController');
+Route::resource('/tiket','TiketController');
+
+Route::get('/transaksi','TransaksiController@index');
+Route::delete('/transaksi/delete/{transaksi}','TransaksiController@destroy');
+Route::post('/transaksi/post','TransaksiController@store');
+Route::put('/transaksi/update/{id}','TransaksiController@update');
+Route::get('/transaksi/show/{transaksi}','TransaksiController@show');

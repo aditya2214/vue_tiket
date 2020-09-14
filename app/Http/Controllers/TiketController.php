@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Model\Tiket\Tiket;
+use App\Http\Resources\TiketResource;
+use Symfony\Component\HttpFoundation\Response;
 
 class TiketController extends Controller
 {
@@ -15,6 +18,7 @@ class TiketController extends Controller
     public function index()
     {
         //
+        return TiketResource::collection(Tiket::latest()->get());
     }
 
     /**
@@ -22,10 +26,10 @@ class TiketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
+    // public function create()
+    // {
+    //     //
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -36,6 +40,9 @@ class TiketController extends Controller
     public function store(Request $request)
     {
         //
+        $category = Tiket::create($request->all());
+        return response(new TiketResource($category),Response::HTTP_CREATED); //jika kita menggunakan HTTP_CREATED. Wajib ~ use Symfony\Component\HttpFoundation\Response ~ Lihat baris 8
+
     }
 
     /**
@@ -44,9 +51,10 @@ class TiketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Tiket $tiket)
     {
         //
+        return new TiketResource($tiket);
     }
 
     /**
@@ -55,10 +63,10 @@ class TiketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
-    }
+    // public function edit($id)
+    // {
+    //     //
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -67,9 +75,11 @@ class TiketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Tiket $tiket)
     {
         //
+        $tiket->update($request->all());
+        return response('Updated Successfully',Response::HTTP_CREATED);
     }
 
     /**
@@ -78,8 +88,11 @@ class TiketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Tiket $tiket)
     {
         //
+        $tiket->delete();
+
+        return response('Deleted Seccessfully',Response::HTTP_OK);
     }
 }

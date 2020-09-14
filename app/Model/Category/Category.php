@@ -8,4 +8,7 @@ class Category extends Model
 {
     //
     protected $guarded = [];
+    public function hasManyTiket(){
+        return $this->hasMany('App\Model\Tiket\Tiket', 'id_category', 'id');
+    }
 }
